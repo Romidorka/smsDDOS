@@ -8,7 +8,7 @@ smsDDOS - это программа для спамминга.
 
 ```bash
 pkg install python3
-pip install requests argparse
+pip install requests argparse colorama
 cd ~
 git clone https://github.com/Romidorka/smsDDOS
 ```
