@@ -128,10 +128,12 @@ elif mode == "3":
         fileName = input("Введите название файла: ")
     with open(fileName, "r") as file:
         phones = file.read().split("\n")
-        for i in range(phones.count("")):
-            phones.remove("")
 elif mode == "4":
     quit()
+
+for i in range(phones.count("")):
+    phones.remove("")
+
 print("\nНомера телефонов для атаки:")
 for i in range(len(phones)):
     print("[" + str(i+1) + "]: " + phones[i])
