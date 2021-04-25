@@ -20,5 +20,5 @@ git clone https://github.com/Romidorka/smsDDOS
 
 ```bash
 cd ~/smsDDOS
-python3 main.py --phone {название файла с номерами телефонов}
+python3 main.py
 ```
