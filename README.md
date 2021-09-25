@@ -1,14 +1,14 @@
 # smsDDOS
 
-smsDDOS - это программа для спамминга.
+smsDDOS - это программа для SMS спамминга.
 
 ## Установка
 
 Для Termux:
 
 ```bash
-pkg install python
-pip install requests argparse colorama
+pkg install python3
+pip3 install -r requirements.txt
 cd ~
 git clone https://github.com/Romidorka/smsDDOS
 ```
