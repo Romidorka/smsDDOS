@@ -1,1 +1,1 @@
-{"proxy": "noproxy", "custom_proxy": "https://0.0.0.0:8080"}
+{"proxy": "noproxy", "custom_proxy": "", "show_ip": true, "show_proxy": true}

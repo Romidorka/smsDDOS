@@ -2,7 +2,7 @@ import colorama as clr
 clr.init()
 
 
-logo = f"""{clr.Fore.MAGENTA}
+logo = clr.Fore.MAGENTA + """
    _____ __  __  _____    _____  _____   ____   _____ 
   / ____|  \/  |/ ____|  |  __ \|  __ \ / __ \ / ____|
  | (___ | \  / | (___    | |  | | |  | | |  | | (___  
@@ -10,7 +10,8 @@ logo = f"""{clr.Fore.MAGENTA}
   ____) | |  | |____) |  | |__| | |__| | |__| |____) |
  |_____/|_|  |_|_____/   |_____/|_____/ \____/|_____/ 
 
-      {clr.Fore.RED}Created by Romidorka.""" + clr.Fore.CYAN + "\n" * 2
+   """+clr.Fore.GREEN+"""{ip}{proxy}
+      """+clr.Fore.RED+"""Created by Romidorka.""" + clr.Fore.CYAN + "\n" * 2
 
 main_menu = """
  1) Атака
@@ -33,6 +34,13 @@ proxy_menu = """
  0) Назад
 """ + clr.Fore.BLUE
 
+settings_menu = """
+ 1) [{}] Отображение ip
+ 2) [{}] Прокси
+ 3) [{}] Tor
+ 4) [{}] Tor с автосменой ip
+ 0) Назад
+"""
 
 attack_logo = """
           _   _             _    

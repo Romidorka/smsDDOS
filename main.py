@@ -19,6 +19,7 @@ def clear_screen():
 
 class Main:
     proxy = {}
+    ip = ""
 
     def __init__(self):
         self.session = requests.session()
@@ -28,7 +29,31 @@ class Main:
 
     def logo(self):
         clear_screen()
-        print(module.logo)
+
+        if self.settings["show_ip"]:
+            ip = self.ip
+            ip = ip + " " * (15 - len(ip))
+            ip = "IP: " + ip
+        else:
+            ip = ""
+        if self.settings["show_ip"] and not self.settings["show_proxy"]:
+            ip = "   " + ip
+
+        if self.settings["show_proxy"]:
+            if self.settings["proxy"] == "noproxy":
+                proxy = "без прокси"
+            elif self.settings["proxy"] == "proxy":
+                proxy = self.settings["custom_proxy"][8::]
+            elif self.settings["proxy"] == "tor":
+                proxy = "Tor"
+            elif self.settings["proxy"] == "toripcng":
+                proxy = "Tor с автосменой ip"
+            proxy = "   Proxy: " + proxy
+        else:
+            proxy = ""
+
+
+        print(module.logo.format(ip=ip, proxy=proxy))
 
     def main_menu(self):
         while True:
@@ -207,6 +232,10 @@ class Main:
                 json.dump(self.settings, file)
             self.refresh_proxy()
 
+    def settings_menu(self):
+        self.logo()
+
+
     def new_ip(self):
         # signal TOR for a new connection
         with Controller.from_port(port=9051) as controller:
@@ -221,6 +250,15 @@ class Main:
         elif self.settings['proxy'] == "tor" or self.settings['proxy'] == "toripcng":
             self.proxy = {'http':  'socks5://127.0.0.1:9050',
                           'https': 'socks5://127.0.0.1:9050'}
+        self.refresh_ip()
+
+    def refresh_ip(self):
+        self.ip = self.my_ip()
+
+    def my_ip(self):
+        return json.loads(
+            requests.get("http://httpbin.org/ip", proxies=self.proxy).content
+        )["origin"]
 
     def attack(self, phones: List[str], time_: int = 30):
         clear_screen()
@@ -242,11 +280,13 @@ class Main:
 
                     if error and self.settings["proxy"] == "toripcng":
                         print("\a\n\n Changing ip")
-                        old_ip = json.loads(requests.get("http://httpbin.org/ip", proxies=self.proxy).content)["origin"]
-                        print(" Old ip: " + old_ip)
+                        old_ip = self.my_ip()
+                        if self.settings["show_ip"]:
+                            print(" Old ip: " + old_ip)
                         self.new_ip()
-                        new_ip = json.loads(requests.get("http://httpbin.org/ip", proxies=self.proxy).content)["origin"]
-                        print(" New ip: " + new_ip)
+                        new_ip = self.my_ip()
+                        if self.settings["show_ip"]:
+                            print(" New ip: " + new_ip)
         except KeyboardInterrupt:
             print("\a\n\n Атака остановленна.")
             time.sleep(2.5)
