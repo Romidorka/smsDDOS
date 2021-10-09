@@ -31,7 +31,7 @@ nano torrc
 
 Находим строчку где написанно:
 ```#HashedControlPassword```, стираем знак решотки (#) и то, что написано после
-```#HashedControlPassword```.
+```HashedControlPassword```.
 
 Вставляем ранее скопированный хеш пароля.
 Чтобы сохранить, нажимаем Ctrl + O, потом Enter.
