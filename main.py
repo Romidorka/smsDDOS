@@ -52,7 +52,6 @@ class Main:
         else:
             proxy = ""
 
-
         print(module.logo.format(ip=ip, proxy=proxy))
 
     def main_menu(self):
@@ -62,9 +61,10 @@ class Main:
             cmd = input(" >")
             if cmd == "1":
                 self.attack_menu()
-                # print("Attack menu")
             elif cmd == "2":
                 self.proxy_menu()
+            elif cmd == "3":
+                self.settings_menu()
             elif cmd == "0":
                 clear_screen()
                 quit()
@@ -235,6 +235,32 @@ class Main:
     def settings_menu(self):
         self.logo()
 
+        while True:
+            self.logo()
+            selected_symbol = clr.Fore.LIGHTBLUE_EX + "+" + clr.Fore.CYAN
+            settings_arr = [" ", " "]
+            if self.settings['show_ip']:
+                settings_arr[0] = selected_symbol
+            if self.settings['show_proxy']:
+                settings_arr[1] = selected_symbol
+
+            print(module.settings_menu.format(settings_arr[0],
+                                           settings_arr[1]))
+
+            cmd = input(" >")
+            if cmd == "1":
+                self.settings['show_ip'] = not self.settings["show_ip"]
+            elif cmd == "2":
+                self.settings['show_proxy'] = not self.settings["show_proxy"]
+            elif cmd == "0":
+                break
+            else:
+                print(clr.Fore.RED + " Некоректный ввод." + clr.Fore.BLUE)
+                time.sleep(1.25)
+                continue
+
+            with open("settings.json", "w") as file:
+                json.dump(self.settings, file)
 
     def new_ip(self):
         # signal TOR for a new connection
