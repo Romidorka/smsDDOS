@@ -282,7 +282,10 @@ class Main:
         self.refresh_ip()
 
     def refresh_ip(self):
-        self.ip = self.my_ip()
+        try:
+            self.ip = self.my_ip()
+        except:
+            self.ip = "Нет соединения"
 
     def my_ip(self):
         return json.loads(
