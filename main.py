@@ -31,7 +31,10 @@ class Main:
         clear_screen()
 
         if self.settings["show_ip"]:
-            ip = self.ip
+            try:
+                ip = self.ip
+            except:
+                ip = "Нет соединения"
             ip = ip + " " * (15 - len(ip))
             ip = "IP: " + ip
         else:
@@ -245,7 +248,7 @@ class Main:
                 settings_arr[1] = selected_symbol
 
             print(module.settings_menu.format(settings_arr[0],
-                                           settings_arr[1]))
+                                              settings_arr[1]))
 
             cmd = input(" >")
             if cmd == "1":
@@ -274,7 +277,7 @@ class Main:
         elif self.settings['proxy'] == "proxy":
             self.proxy = {'https': self.settings['custom_proxy']}
         elif self.settings['proxy'] == "tor" or self.settings['proxy'] == "toripcng":
-            self.proxy = {'http':  'socks5://127.0.0.1:9050',
+            self.proxy = {'http': 'socks5://127.0.0.1:9050',
                           'https': 'socks5://127.0.0.1:9050'}
         self.refresh_ip()
 
